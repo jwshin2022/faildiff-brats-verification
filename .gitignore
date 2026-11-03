@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+minimum_data.json
+*_PRIVATE.json
+PRIVATE_PROVENANCE.json
+*.nii
+*.nii.gz
+*.npz
+*.npy
+*.pt
+*.pth
