@@ -1,8 +1,8 @@
 """Independent numerical review of reduced statistics; no image/model readers.
 
 Standalone numerical verification code. No original model or imaging software is bundled.
-Run: python reproduce_minimum.py --data minimum_data.json --out result.json
-Smoke: python reproduce_minimum.py --synthetic --out smoke.json
+Run: python verify_results.py --data minimum_data.json --out result.json
+Smoke: python verify_results.py --synthetic --out smoke.json
 """
 import argparse
 import collections
@@ -193,7 +193,7 @@ def main():
     a=p.parse_args();started=time.process_time();wall=time.monotonic()
     result=synthetic() if a.synthetic else reproduce(json.loads(a.data.read_text()))
     result['execution']={'cpu_seconds':time.process_time()-started,'wall_seconds':time.monotonic()-wall,
-                         'max_rss_kib':resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
+                         'max_rss_bytes':resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * (1 if sys.platform == 'darwin' else 1024),
                          'raw_image_reads':0,'GT_array_reads':0,'GPU_used':False,'production_analysis_imports':False}
     with a.out.open('x') as f:json.dump(result,f,indent=2,allow_nan=False)
     print(json.dumps({'status':'PASS','mode':'synthetic' if a.synthetic else 'reduced-derived',
