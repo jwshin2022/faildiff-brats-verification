@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "Please cite this numerical verification software when reusing it."
+title: "FailDiff BraTS numerical verification and aggregation"
+type: software
+authors:
+  - family-names: Shin
+    given-names: Jee-Woo
+repository-code: "https://github.com/jwshin2022/faildiff-brats-verification"
+license: MIT
+version: "2026.11.04"
+date-released: "2026-11-04"
