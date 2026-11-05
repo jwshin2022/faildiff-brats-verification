@@ -1,4 +1,4 @@
-"""Bounded reviewer-requested analyses from count summaries; no model/image loader.
+"""Distribution and confidence analyses from count summaries; no model/image loader.
 
 All three confidence thresholds are reported. No threshold is fitted to outcomes.
 """
@@ -103,7 +103,7 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--data',required=True);p.add_argument('--out',required=True);a=p.parse_args()
     root=Path(a.out);root.mkdir(parents=True,exist_ok=False);start=time.time();raw=Path(a.data).read_bytes();d=json.loads(raw)
     out,paired,worst=run(d);out['environment']={'python':platform.python_version(),'numpy':np.__version__,'seconds':time.time()-start}
-    (root/'REVISION_ANALYSES.json').write_text(json.dumps(out,indent=2,allow_nan=False)+'\n')
+    (root/'DISTRIBUTION_RESULTS.json').write_text(json.dumps(out,indent=2,allow_nan=False)+'\n')
     (root/'GROUP_FIGURE_INPUT_PRIVATE.json').write_text(json.dumps(paired,indent=2)+'\n')
     (root/'PRIVATE_PROVENANCE.json').write_text(json.dumps({'input_sha256':hashlib.sha256(raw).hexdigest(),'worst_indices':worst,'script_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()},indent=2)+'\n')
     print(json.dumps(out,indent=2))

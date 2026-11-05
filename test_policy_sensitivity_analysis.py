@@ -1,6 +1,6 @@
 import itertools,json
 from fractions import Fraction
-from round2_analysis import composite,REGIONS
+from policy_sensitivity_analysis import composite,REGIONS
 def counts(y,p):return [[sum(v in ls for v in p),sum(v in ls for v in y),sum(a in ls and b in ls for a,b in zip(p,y))] for ls in REGIONS]
 def ratio(c):return Fraction(2*c[2],c[0]+c[1]) if c[0]+c[1] else Fraction(1)
 n=0

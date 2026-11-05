@@ -1,4 +1,4 @@
-"""Reviewer-requested analyses from fixed integer summaries; no image/model access."""
+"""Policy sensitivity analyses from fixed integer summaries; no image/model access."""
 from pathlib import Path
 from fractions import Fraction
 import argparse, json, hashlib, platform, time
@@ -94,7 +94,7 @@ def main():
             row.pop('counts');row.pop('baseline_counts')
     public['execution']={'CPU_seconds':time.process_time()-start,'Python':platform.python_version(),'NumPy':np.__version__,
         'MRI_GT_array_reads':0,'checkpoint_reads':0,'GPU_used':False}
-    for name,obj in [('analysis/ROUND2_RESULTS.json',public),('private/ROUND2_GROUP_ROWS.json',private),
+    for name,obj in [('analysis/POLICY_SENSITIVITY_RESULTS.json',public),('private/POLICY_GROUP_ROWS.json',private),
                      ('private/ANALYSIS_BINDING.json',{'input_sha256':hashlib.sha256(raw).hexdigest(),'code_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()})]:
         with (r/name).open('x') as f:json.dump(obj,f,indent=2,allow_nan=False)
     print(json.dumps({k:{z:v[z] for z in ('selected','acted','mean_pp','median_pp','edited_mean_pp','region_mean_pp','transitions','sensitivity')} for k,v in public['policies'].items()},indent=2))

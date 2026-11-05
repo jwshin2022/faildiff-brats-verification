@@ -1,7 +1,7 @@
 """Independent exhaustive array checks for disjoint count aggregation."""
 import itertools,json
 from fractions import Fraction
-from revision_analysis import evaluate,REGIONS
+from distribution_analysis import evaluate,REGIONS
 def counts(y,p):return [[sum(v in ls for v in p),sum(v in ls for v in y),sum(a in ls and b in ls for a,b in zip(p,y))] for ls in REGIONS]
 def ratio(c):return Fraction(2*c[2],c[0]+c[1]) if c[0]+c[1] else Fraction(1)
 a=[0,1,2,3];target=[2,3,1,0];tests=0

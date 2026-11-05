@@ -1,6 +1,6 @@
 # FailDiff-BraTS numerical verification
 
-Standalone verification and aggregation software for **Error transfer and certification saturation in a brain tumor segmentation correction system** by Jee-Woo Shin and Chung-Pyo Hong. The manuscript is under author review; this repository does not imply acceptance or publication.
+Standalone verification and aggregation software for **Error transfer and certification saturation in a brain tumor segmentation correction system** by Jee-Woo Shin and Chung-Pyo Hong. This repository provides numerical verification software for the study.
 
 ## Scope
 
@@ -17,10 +17,11 @@ python -m venv .venv
 . .venv/bin/activate
 python -m pip install -r requirements.txt
 python verify_results.py --synthetic --out synthetic_result.json
-python test_revision_analysis.py
+python test_distribution_analysis.py
+python test_policy_sensitivity_analysis.py
 ```
 
-Use a new output path for each execution. The first test uses an artificial group. The second exhaustively compares direct masks and disjoint-count aggregation in 4,096 configurations, including empty regions. Neither requires study data.
+Use a new output path for each execution. The first test uses an artificial group. The distribution test compares direct masks and disjoint-count aggregation in 4,096 configurations. The policy sensitivity test checks 12,544 selected subsets against direct masks. Both include empty regions and run without study data.
 
 ## Reproducing study numbers
 
@@ -28,12 +29,19 @@ The record-level numerical inputs are not in this public repository. Request the
 
 ```sh
 python verify_results.py --data /approved/path/minimum_data.json --out numerical_results.json
-python revision_analysis.py --data /approved/path/minimum_data.json --out new_analysis_directory
+python distribution_analysis.py --data /approved/path/minimum_data.json --out new_distribution_directory
+python policy_sensitivity_analysis.py --data /approved/path/minimum_data.json --root new_policy_directory
 ```
 
-The revision output directory must not already exist. It contains group-level plotting statistics and provenance, which must remain in authorized storage and must not be uploaded by default. The script reports every threshold (0.5, 0.7, 0.9); it does not select a favorable threshold.
+The distribution analysis output directory must not already exist. It contains group-level plotting statistics and provenance, which must remain in authorized storage and must not be uploaded by default. The script reports every threshold (0.5, 0.7, 0.9); it does not select a favorable threshold.
 
 Primary bootstrap: 20,000 group draws, PCG64 seed 20261008. Worst-B exclusions: post hoc sensitivity, seed 20261103. Groups are source/image units, not independently verified patients. Numerical reproduction does not resolve source attribution, prove independent sampling, or establish clinical safety. Counts are exact; floating-point bootstrap values should be compared using documented tolerances and dependency versions.
+
+The distribution aggregate is saved as `DISTRIBUTION_RESULTS.json`; the policy aggregate is saved as `analysis/POLICY_SENSITIVITY_RESULTS.json`. See POLICY_SENSITIVITY.md for the policy analyses. Individual derived outputs remain restricted.
+
+## Version history
+
+Version 2026.11.05 uses descriptive script and output names. The numerical operations, thresholds, bootstrap seeds and input schema are unchanged. The previous release remains available at https://doi.org/10.5281/zenodo.23941672.
 
 ## Development and license
 
